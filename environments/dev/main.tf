@@ -12,13 +12,29 @@ locals {
   item_suffix = "${join("-", list(var.user, var.project, var.environment))}"
 }
 
-module "cicd_iam" {
-  source = "../../modules/iam"
+data "template_file" "cicd_iam_policy" {
+  template = "${file("../../templates/cicd_iam_policy.tpl")}"
 
-  iam_role_name = "${local.item_suffix}-cicd"
-  codebuild_project_name = "${local.item_suffix}"
-  region = "${var.region}"
-  ecr_repo = "${var.ecr_repo}"
+  vars {
+    region = "${var.region}"
+    codebuild_project_name = "${local.item_suffix}"
+    ecr_repo = "${var.ecr_repo}"
+  }
+}
+
+module "cicd_iam_role" {
+  source = "github.com/thatscotdatasci/terraform-module-aws-iam//modules/iam_role"
+
+  role_name = "${local.item_suffix}-cicd"
+  assume_role_policy = "${file("../../files/cicd_iam_role.json")}"
+  force_detach_policies = "True"
+}
+
+module "cicd_iam_policy" {
+  source = "github.com/thatscotdatasci/terraform-module-aws-iam//modules/iam_policy"
+
+  role = "${module.cicd_iam_role.name}"
+  policy = "${data.template_file.cicd_iam_policy.rendered}"
 }
 
 module "codebuild" {
@@ -30,5 +46,5 @@ module "codebuild" {
   github_project_url = "${var.github_project_url}"
   project_name = "${local.item_suffix}"
   environment_tag = "${var.environment}"
-  iam_role_arn = "${module.cicd_iam.arn}"
+  iam_role_arn = "${module.cicd_iam_role.arn}"
 }
