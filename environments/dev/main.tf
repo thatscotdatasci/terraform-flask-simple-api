@@ -23,6 +23,10 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
   force_destroy = true
 }
 
+resource "aws_ecr_repository" "ecr_repository" {
+  name = "${local.item_suffix}"
+}
+
 data "template_file" "cicd_iam_policy" {
   template = "${file("../../templates/cicd_iam_policy.tpl")}"
 
@@ -30,7 +34,7 @@ data "template_file" "cicd_iam_policy" {
     region = "${var.region}"
     s3_codepipeline_bucket = "${aws_s3_bucket.codepipeline_bucket.arn}"
     codebuild_project_name = "${local.item_suffix}"
-    ecr_repo = "${var.ecr_repo}"
+    ecr_repo = "${aws_ecr_repository.ecr_repository.name}"
   }
 }
 
@@ -54,7 +58,7 @@ module "codebuild" {
 
   region = "${var.region}"
   account_id = "${var.account_id}"
-  repo_name = "${var.ecr_repo}"
+  repo_name = "${aws_ecr_repository.ecr_repository.name}"
   container_name = "${var.ecs_container_name}"
   github_project_url = "${var.github_project_url}"
   project_name = "${local.item_suffix}"

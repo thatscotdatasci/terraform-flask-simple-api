@@ -2,7 +2,6 @@ user = "thatscotdatasci"
 project = "terraform-flask-simple-api"
 environment = "dev"
 
-ecr_repo = "flaskapi"
 ecs_container_name = "flaskapi"
 ecs_cluster_name = "flaskapi"
 ecs_service_name = "flask-api-service"

@@ -9,7 +9,6 @@ variable "region" {
   default = "eu-west-2"
 }
 
-variable "ecr_repo" {}
 variable "ecs_container_name" {}
 variable "ecs_cluster_name" {}
 variable "ecs_service_name" {}
