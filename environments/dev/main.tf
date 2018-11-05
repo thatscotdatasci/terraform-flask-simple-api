@@ -30,7 +30,7 @@ data "template_file" "cicd_iam_policy" {
 }
 
 module "cicd_iam_role" {
-  source = "github.com/thatscotdatasci/terraform-module-aws-iam//modules/iam_role"
+  source = "github.com/thatscotdatasci/terraform-module-aws-iam.git?ref=v1.0.0//modules/iam_role"
 
   role_name = "${local.item_suffix}-cicd"
   assume_role_policy = "${file("../../files/cicd_iam_role.json")}"
@@ -38,14 +38,14 @@ module "cicd_iam_role" {
 }
 
 module "cicd_iam_policy" {
-  source = "github.com/thatscotdatasci/terraform-module-aws-iam//modules/iam_policy"
+  source = "github.com/thatscotdatasci/terraform-module-aws-iam.git?ref=v1.0.0//modules/iam_policy"
 
   role = "${module.cicd_iam_role.name}"
   policy = "${data.template_file.cicd_iam_policy.rendered}"
 }
 
 module "codebuild" {
-  source = "github.com/thatscotdatasci/terraform-module-aws-codebuild//modules/codebuild_ecr"
+  source = "github.com/thatscotdatasci/terraform-module-aws-codebuild.git?ref=v1.0.0//modules/codebuild_ecr"
 
   region = "${var.region}"
   account_id = "${var.account_id}"
@@ -58,7 +58,7 @@ module "codebuild" {
 }
 
 module "codepipeline" {
-  source = "github.com/thatscotdatasci/terraform-module-aws-codepipeline//modules/codepipeline_ecs"
+  source = "github.com/thatscotdatasci/terraform-module-aws-codepipeline.git?ref=v1.0.0//modules/codepipeline_ecs"
 
   codepipeline_name = "${local.item_suffix}"
   iam_role_arn = "${module.cicd_iam_role.arn}"
