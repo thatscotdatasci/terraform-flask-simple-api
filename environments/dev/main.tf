@@ -2,6 +2,11 @@ terraform {
   backend "s3" {}
 }
 
+provider "github" {
+  organization = ""
+  token = ""
+}
+
 provider "aws" {
   access_key = "${var.access_key}"
   secret_key = "${var.secret_key}"
@@ -58,7 +63,7 @@ module "codebuild" {
 }
 
 module "codepipeline" {
-  source = "github.com/thatscotdatasci/terraform-module-aws-codepipeline.git?ref=v1.0.0//modules/codepipeline_ecs"
+  source = "github.com/thatscotdatasci/terraform-module-aws-codepipeline.git?ref=v1.1.2//modules/codepipeline_ecs"
 
   codepipeline_name = "${local.item_suffix}"
   iam_role_arn = "${module.cicd_iam_role.arn}"
