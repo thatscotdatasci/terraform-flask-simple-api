@@ -15,6 +15,18 @@
         {
             "Effect": "Allow",
             "Resource": [
+                "${s3_codepipeline_bucket}",
+                "${s3_codepipeline_bucket}/*"
+            ],
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Resource": [
                 "*"
             ],
             "Action": [
@@ -36,11 +48,16 @@
         },
         {
             "Effect": "Allow",
-            "Resource": [
-                "*"
-            ],
+            "Resource": "*",
             "Action": [
                 "ecr:GetAuthorizationToken"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Resource": "*",
+            "Action": [
+                "ecs:*"
             ]
         },
         {

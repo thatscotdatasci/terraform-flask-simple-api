@@ -10,5 +10,12 @@ variable "region" {
 }
 
 variable "ecr_repo" {}
+variable "ecs_container_name" {}
+variable "ecs_cluster_name" {}
+variable "ecs_service_name" {}
 
+variable "github_owner" {}
+variable "github_repo" {}
 variable "github_project_url" {}
+variable "github_branch" {}
+variable "github_oauth" {}
