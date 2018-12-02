@@ -33,6 +33,7 @@ data "template_file" "ecs_service_definitions" {
   template = "${file("../../templates/ecs_service_definitions.json")}"
 
   vars {
+    container_repo = "${aws_ecr_repository.ecr_repository.repository_url}"
     container_name = "${var.ecs_container_name}"
     container_tag  = "latest"
   }
@@ -45,7 +46,7 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
 }
 
 resource "aws_ecr_repository" "ecr_repository" {
-  name = "${local.item_suffix}"
+  name = "${local.item_suffix}/${var.ecs_container_name}"
 }
 
 module "aws_ecs" {

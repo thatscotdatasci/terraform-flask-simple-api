@@ -36,7 +36,8 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:ecr:${region}:*:repository/${ecr_repo}"
+                "arn:aws:ecr:${region}:*:repository/${ecr_repo}",
+                "arn:aws:ecr:${region}:*:repository/${ecr_repo}/*"
             ],
             "Action": [
                 "ecr:BatchCheckLayerAvailability",

@@ -1,7 +1,7 @@
 [
   {
     "name": "${container_name}",
-    "image": "${container_name}:${container_tag}",
+    "image": "${container_repo}:${container_tag}",
     "cpu": 128,
     "memory": 128,
     "essential": true,
