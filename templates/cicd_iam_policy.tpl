@@ -69,6 +69,14 @@
                 "codebuild:StartBuild",
                 "codebuild:BatchGetBuilds"
             ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:PassRole"
+            ],
+            "Resource": "${ecs_iam_arn}"
         }
     ]
 }

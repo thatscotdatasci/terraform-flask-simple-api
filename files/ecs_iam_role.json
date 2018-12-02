@@ -5,9 +5,7 @@
       "Effect": "Allow",
       "Principal": {
         "Service": [
-          "codebuild.amazonaws.com",
-          "codepipeline.amazonaws.com",
-          "ecs-tasks.amazonaws.com"
+          "ecs.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"
